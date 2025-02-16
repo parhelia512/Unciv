@@ -171,8 +171,9 @@ class CityConstructionsTable(private val cityScreen: CityScreen) {
         /** [UniqueType.MayBuyConstructionsInPuppets] support - we need a buy button for civs that could buy items in puppets */
         if (cityScreen.city.isPuppet && !cityScreen.city.getMatchingUniques(UniqueType.MayBuyConstructionsInPuppets).any()) return
         buttonsTable.clear()
-        buyButtonFactory.addBuyButtons(buttonsTable, construction) {
-            it.width(120f).padRight(10f)
+        
+        for (button in buyButtonFactory.getBuyButtons(construction)) {
+            buttonsTable.add(button).width(120f).padRight(10f)
         }
         // priority buttons and remove button
         val queue = cityScreen.city.cityConstructions.constructionQueue
@@ -210,7 +211,7 @@ class CityConstructionsTable(private val cityScreen: CityScreen) {
             constructionsQueueTable.add(getQueueEntry(0, currentConstruction))
                     .expandX().fillX().row()
         else
-            constructionsQueueTable.add("Pick a construction".toLabel()).pad(2f).row()
+            constructionsQueueTable.add("Pick a construction".toLabel()).height(50f).pad(2f).row()
 
         // always show queue expander, even when empty, in order to keep lowerTable at constant position
         queueExpander.innerTable.clear()
@@ -513,7 +514,14 @@ class CityConstructionsTable(private val cityScreen: CityScreen) {
         val resourceTable = Table().apply { isTransform = false }
 
         val textColor = if (constructionButtonDTO.rejectionReason == null) Color.WHITE else Color.RED
-        constructionTable.add(construction.name.toLabel(fontColor = textColor, hideIcons = true).apply { wrap=true })
+
+        val statIcons = if (construction is Building)
+            " " + Stat.entries.filter { construction.isStatRelated(it, cityScreen.city) }.map { it.character }.joinToString("")
+        else ""
+        
+        val constructionNameText = "${construction.name.tr(hideIcons = true)}$statIcons"
+
+        constructionTable.add(constructionNameText.toLabel(fontColor = textColor, hideIcons = true).apply { wrap=true })
             .width(cityScreen.stage.width/5).expandX().left().row()
 
         resourceTable.add(constructionButtonDTO.buttonText.toLabel()).expandX().left()

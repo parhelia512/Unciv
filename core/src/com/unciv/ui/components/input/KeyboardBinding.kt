@@ -50,6 +50,7 @@ enum class KeyboardBinding(
     DeveloperConsole(Category.WorldScreen, '`'),
     PrevIdleButton(Category.WorldScreen, "Idle Prev",','),
     NextIdleButton(Category.WorldScreen, "Idle Next", '.'),
+    Cycle(Category.WorldScreen, ';'),
 
     /*
      * These try to be faithful to default Civ5 key bindings as found in several places online
@@ -102,7 +103,7 @@ enum class KeyboardBinding(
     // Unit actions - name MUST correspond to UnitActionType.name because the shorthand constructor
     // there looks up bindings here by name - which also means we must not use UnitActionType
     // here as it will not be guaranteed to already be fully initialized.
-    SwapUnits(Category.UnitActions,"Swap units", 'y'),
+    SwapUnits(Category.UnitActions, "Swap units", 'y'),
     Automate(Category.UnitActions, 'm'),
     ConnectRoad(Category.UnitActions, "Connect road", 'c'),
     StopAutomation(Category.UnitActions,"Stop automation", 'm'),
@@ -136,7 +137,7 @@ enum class KeyboardBinding(
     EnhanceReligion(Category.UnitActions,"Enhance a Religion", 'g'),
     DisbandUnit(Category.UnitActions,"Disband unit", KeyCharAndCode.DEL),
     GiftUnit(Category.UnitActions,"Gift unit", KeyCharAndCode.UNKNOWN),
-    Wait(Category.UnitActions, 'z'),
+    Skip(Category.UnitActions, 'z'),
     ShowAdditionalActions(Category.UnitActions,"Show more", Input.Keys.PAGE_DOWN),
     HideAdditionalActions(Category.UnitActions,"Back", Input.Keys.PAGE_UP),
     AddInCapital(Category.UnitActions, "Add in capital", 'g'),
